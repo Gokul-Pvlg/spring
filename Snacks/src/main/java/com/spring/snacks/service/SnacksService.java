@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 import com.spring.snacks.model.Snacks;
 import com.spring.snacks.repository.SnacksRepository;
 
+import jakarta.transaction.Transactional;
+
+//import jakarta.transaction.Transactional;
+
 @Service
 public class SnacksService {
 	@Autowired
@@ -43,4 +47,18 @@ public class SnacksService {
 		repository.deleteById(id);
 		return "deleted !";
 				}
+	public List<Snacks> getSnacksByName(String snacksname){
+		List<Snacks> sn=repository.getSnacksByName(snacksname);
+		return sn;
+	}
+	@Transactional
+	public int deleteSnacks(String snacksname) {
+		return repository.deleteSnacks(snacksname);
+		
+	}
+	@Transactional
+	public int updatesnacks(float price,String snacksname) {
+		return repository.updatesnacks(price,snacksname);
+	}
+
 }

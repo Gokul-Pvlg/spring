@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spring.snacks.model.Snacks;
 import com.spring.snacks.service.SnacksService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api")
 
 public class SnacksController {
 	@Autowired
 	private SnacksService service;
+	@Tag(name="Get",description ="get data")
 	@GetMapping()
 	public List<Snacks> read(){
 		return service.getSnacks();
@@ -44,4 +47,28 @@ public class SnacksController {
 		return service.deleteSnacks(id);
 		
 	}
+
+	@GetMapping("/getSnacksByName/{snacksname}")
+	public List<Snacks>getSnacksByName(@PathVariable String snacksname){
+	List<Snacks> sn=service.getSnacksByName(snacksname);
+	return sn;
+	}
+	@DeleteMapping("/deleteSnacks")
+	public String deleteSnacks(@PathVariable String snacksname) {
+		int res=service.deleteSnacks(snacksname);
+		if(res>0)
+			return "Snacks data deleted";
+		else
+			return "problem ouccerd";
+	}
+	@PutMapping("/updatesnacks")
+	public String updatesnacks(@PathVariable float price,@PathVariable String snacksname)
+	{
+		int res=service.updatesnacks(price, snacksname);
+		if(res>0)
+			return "snacks data updated";
+		else
+			return "could not update";
+	}
+	
 }
